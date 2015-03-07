@@ -14,14 +14,16 @@ class DB_Connect {
   
     // Connecting to database
     public function connect() {
-	$db = new PDO('mysql:host=' + DB_HOST +';dbname=' + DB_DATABASE + ';charset=utf8', DB_USER, DB_PASSWORD);
+	$db = new PDO('mysql:host=localhost;dbname=winappgcm;charset=utf8', 'root');
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         // return database handler
         return $db;
     }
   
     // Closing database connection
     public function close() {
-        mysql_close();
+        /*mysql_close();*/
     }
   
 } 

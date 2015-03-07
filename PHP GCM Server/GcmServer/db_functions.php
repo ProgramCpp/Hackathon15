@@ -9,9 +9,8 @@ class DB_Functions {
     function __construct() {
         include_once './db_connect.php';
         // connecting to database
-	$this->db = new PDO('mysql:host=localhost;dbname=winappgcm;charset=utf8', 'root');
-	$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+	$db = new DB_Connect();
+	$this->db = $db -> connect();
     }
  
     // destructor
