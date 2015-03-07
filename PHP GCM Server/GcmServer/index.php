@@ -92,9 +92,10 @@
         <?php
         include_once 'db_functions.php';
         $db = new DB_Functions();
-        $users = $db->getAllUsers();
+	
+        $users = $db->storeUser("Janani", "myMail@box.com", "XXX");
         if ($users != false)
-            $no_of_users = mysql_num_rows($users);
+            $no_of_users =count($users);
         else
             $no_of_users = 0;
         ?>
@@ -106,7 +107,7 @@
                 if ($no_of_users > 0) {
                     ?>
                     <?php
-                    while ($row = mysql_fetch_array($users)) {
+					foreach ($users as &$row) {
                         ?>
                         <li>
                             <form id="<?php echo $row["id"] ?>" name="" method="post" onsubmit="return sendPushNotification('<?php echo $row["id"] ?>')">

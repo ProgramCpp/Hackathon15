@@ -25,13 +25,13 @@ class DB_Functions {
     public function storeUser($name, $email, $gcm_regid) {
         // insert user into database
 	try {
-        $result = $db->exec("INSERT INTO gcm_users(name, email, gcm_regid, created_at) VALUES('$name', '$email', '$gcm_regid', NOW())");
+        $result = $this ->db->exec("INSERT INTO gcm_users(name, email, gcm_regid, created_at) VALUES('$name', '$email', '$gcm_regid', NOW())");
         // check for successful store
 	if ($result) 
 	{
             // get user details
-            $id = $db->lastInsertId();
-            $stmt = $db->query("SELECT * FROM gcm_users WHERE id = $id");
+            $id = $this ->db->lastInsertId();
+            $stmt = $this ->db->query("SELECT * FROM gcm_users WHERE id = $id");
             // return user details
 		if ($stmt->rowCount() > 0) 
 		{
