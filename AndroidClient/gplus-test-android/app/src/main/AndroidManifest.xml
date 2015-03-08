@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2013 Google, Inc
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hackathon.women.challengeme"
     android:versionCode="1"
     android:versionName="1.0" >
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- GCM connects to Internet Services. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- Creates a custom permission so only this app can receive its messages. -->
     <permission
-        android:name="hackathon.women.challengeme.permission.C2D_MESSAGE"
+        android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE" />
@@ -41,44 +32,91 @@
     <!-- Permission to vibrate -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="hackathon.women.challengeme.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-
-            <intent-filter>
+            android:name=".MainScreen"
+            android:label="@string/title_activity_main_screen" >
+            <intent-filter android:name="@string/app_name" >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ChooseChallenge"
+            android:label="@string/title_activity_choose_challenge" >
+        </activity>
+        <activity
+            android:name=".ApplicationAdapter"
+            android:label="@string/title_activity_application_adapter" >
+        </activity>
+        <activity
+            android:name=".ChooseChallengeTime"
+            android:label="@string/title_activity_choose_challenge_time" >
+        </activity>
+        <activity
+            android:name=".ChooseOpponent"
+            android:label="@string/title_activity_choose_opponent" >
+        </activity>
+        <activity
+            android:name=".ChallengeNotificationScreen"
+            android:label="@string/title_activity_challenge_notification_screen" >
+        </activity>
+        <activity
+            android:name=".Results"
+            android:label="@string/title_activity_results" >
+        </activity>
+        <activity
+            android:name=".MyProfile"
+            android:label="@string/title_activity_my_profile" >
+        </activity>
+        <activity
+            android:name=".MyTrophyRoom"
+            android:label="@string/title_activity_my_trophy_room" >
+        </activity>
+
+        <service
+            android:name=".MyChallengeService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name=".MissionAccomplished"
+            android:label="@string/title_activity_mission_accomplished" >
+        </activity>
+        <activity
+            android:name=".Trophies"
+            android:label="@string/title_activity_trophies" >
+        </activity>
+        <activity
+            android:name=".MissionFailed"
+            android:label="@string/title_activity_mission_failed" >
+        </activity>
 
         <receiver
-            android:name=".GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:name=".MyChallengeReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+        <receiver android:name=".StartupReceiver" >
             <intent-filter>
-
-                <!-- Receives the actual messages. -->
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- Receives the registration id. -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="hackathon.women.challengeme" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="StartupReceiver_Manual_Start" />
             </intent-filter>
         </receiver>
-
-        <service android:name=".GcmIntentService" />
         <meta-data
-            android:name="com.google.android.gms.version"/>
-        <!--android:value="@integer/google_play_services_version"  "" -->
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
-
