@@ -31,9 +31,12 @@ import com.google.android.gms.plus.model.people.PersonBuffer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -42,8 +45,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import hackathon.women.challengeme.ConnectionDetector;
+import hackathon.women.challengeme.AlertDialogManager;
+import hackathon.women.challengeme.ServerUtilities;
 
 /**
  * Android Google+ Quickstart activity.
@@ -100,11 +108,47 @@ public class MainActivity extends FragmentActivity implements
   private Button mSignOutButton;
   private Button mRevokeButton;
   private TextView mStatus;
+  private TextView mScore;
+    private  TextView lblMessage;
   private ListView mCirclesListView;
   private ArrayAdapter<String> mCirclesAdapter;
   private ArrayList<String> mCirclesList;
 
-  @Override
+    // Asyntask
+    AsyncTask<Void, Void, Void> mRegisterTask;
+
+    // Alert dialog manager
+    AlertDialogManager alert = new AlertDialogManager();
+
+    // Connection detector
+    ConnectionDetector cd;
+    /**
+     * Receiving push messages
+     * */
+    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+            // Waking up mobile if it is sleeping
+           // WakeLocker.acquire(getApplicationContext());
+
+            /**
+             * Take appropriate action on this message
+             * depending upon your app requirement
+             * For now i am just displaying it on the screen
+             * */
+
+            // Showing received message
+            lblMessage.append(R.string.Notification + "\n");
+            Toast.makeText(getApplicationContext(), "New Message: " + R.string.Notification, Toast.LENGTH_LONG).show();
+
+            // Releasing wake lock
+            //WakeLocker.release();
+        }
+    };
+
+
+    @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_activity);
@@ -113,7 +157,9 @@ public class MainActivity extends FragmentActivity implements
     mSignOutButton = (Button) findViewById(R.id.sign_out_button);
     mRevokeButton = (Button) findViewById(R.id.revoke_access_button);
     mStatus = (TextView) findViewById(R.id.sign_in_status);
+    mScore = (TextView) findViewById(R.id.score);
     mCirclesListView = (ListView) findViewById(R.id.circles_list);
+    lblMessage = (TextView) findViewById(R.id.accept_challenge_button);
 
     mSignInButton.setOnClickListener(this);
     mSignOutButton.setOnClickListener(this);
@@ -130,6 +176,20 @@ public class MainActivity extends FragmentActivity implements
     }
 
     mGoogleApiClient = buildGoogleApiClient();
+
+      cd = new ConnectionDetector(getApplicationContext());
+
+      // Check if Internet present
+      if (!cd.isConnectingToInternet()) {
+          // Internet Connection is not present
+          alert.showAlertDialog(MainActivity.this,
+                  "Internet Connection Error",
+                  "Please connect to working Internet connection", false);
+          // stop executing code by return
+          //return;
+      }
+
+
   }
 
   private GoogleApiClient buildGoogleApiClient() {
@@ -209,7 +269,12 @@ public class MainActivity extends FragmentActivity implements
   public void onConnected(Bundle connectionHint) {
     // Reaching onConnected means we consider the user signed in.
     Log.i(TAG, "onConnected");
+      cd = new ConnectionDetector(getApplicationContext());
 
+      // Check if Internet present
+      if (!cd.isConnectingToInternet()) {
+          return;
+      }
     // Update the user interface to reflect that the user is signed in.
     mSignInButton.setEnabled(false);
     mSignOutButton.setEnabled(true);
@@ -221,9 +286,16 @@ public class MainActivity extends FragmentActivity implements
     mStatus.setText(String.format(
         getResources().getString(R.string.signed_in_as),
         currentUser.getDisplayName()));
+    String regId = ServerUtilities.getRegistrationId(this);
 
+      if (regId.equals("")) {
+          // Registration is not present, register now with GCM
+          ServerUtilities.register(this, currentUser.getDisplayName(), "email", regId);
+      }
+      mScore.setText(String.format("%s", "10"));// get frm server
     Plus.PeopleApi.loadVisible(mGoogleApiClient, null)
         .setResultCallback(this);
+    // send name and receive info
 
     // Indicate that the sign in process is complete.
     mSignInProgress = STATE_DEFAULT;
