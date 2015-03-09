@@ -47,34 +47,14 @@
           android:enabled="false" />
       
     </LinearLayout>
-
+    
     <TextView
         android:id="@+id/sign_in_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dip"
         android:text="@string/status_signed_out" />
-
-    <TextView
-        android:id="@+id/score_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dip"
-        android:text="@string/score_label_name" />
-
-    <Button
-        android:id="@+id/accept_challenge_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Challenges"
-        android:enabled="false" />
-
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dip"/>
-
+    
     <TextView
         android:id="@+id/circles_title"
         android:layout_width="wrap_content"

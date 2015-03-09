@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="women.hackathon.challengeme.ChallengeNotificationScreen" >
+   
+    <item  android:id="@+id/Challenge_accepted"  
+        android:title="Challenge Accepted"/>  
+    <item  android:id="@+id/Challenge_refused"  
+        android:title="Challenge Refused"/>  
+        
+</menu>
+
