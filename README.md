@@ -15,11 +15,11 @@ Technical Details:
 1. An android app to interact with the users - to login, challenge, check stats and win.
 2. An android service to monitor the app usage.
 3. A broadcast receiver to receive notifications.
-4. Gloogle cloud Messaging for notifications.<br/>
+4. Google cloud Messaging for notifications.<br/>
 <img src="https://hprog99.files.wordpress.com/2015/01/gcm1.png" width="200" height="175" /><br/>
 5. 3rd party server in PHP [yet to be hosted] to track the challenges and send notifications.
-6. MySql to manage the users and challenges.
-6. google+ login to identify the users and friends (google+ circles)
+6. MySQL to manage the users and challenges.
+6. Google+ login to identify the users and friends (google+ circles)
 
 src description:<br/>
 Android client: /AndroidClient/gplus-test-android/<br/>
