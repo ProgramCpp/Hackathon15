@@ -21,3 +21,6 @@ Technical Details:
 6. MySql to manage the users and challenges.
 6. google+ login to identify the users and friends (google+ circles)
 
+src description:
+3rd party server: PHP GCM Server/GcmServer
+Android client: /AndroidClient/gplus-test-android/
