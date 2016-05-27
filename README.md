@@ -26,4 +26,5 @@ Android client: /AndroidClient/gplus-test-android/<br/>
 3rd party server: PHP GCM Server/GcmServer<br/>
 
 ScreenShots: <a href= "https://www.dropbox.com/sh/wzzn2djkyqkh985/AAD8ddu48GKItB1CTb2hc0jMa?dl=0">DropBox</a>
+Presentation: <a href= "http://www.slideshare.net/secret/w1biP2lZdKgJDS"> SlideShare</a>
 
